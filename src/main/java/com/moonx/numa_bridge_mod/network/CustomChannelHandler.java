@@ -54,7 +54,7 @@ public class CustomChannelHandler extends ChannelDuplexHandler {
             if (isCustomHandshake(buf)) {
                 handshakeReceived = true;
                 isModdedClient = true;
-                NettyMod.LOGGER.info("[NettyMod] Modded client detected: {}", playerName);
+                NUMABridgeMod.LOGGER.info("[NettyMod] Modded client detected: {}", playerName);
 
                 // Kirim ACK balik ke client
                 sendHandshakeAck(ctx);
@@ -88,7 +88,7 @@ public class CustomChannelHandler extends ChannelDuplexHandler {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        NettyMod.LOGGER.debug("[NettyMod] Channel active for: {}", playerName);
+        NUMABridgeMod.LOGGER.debug("[NettyMod] Channel active for: {}", playerName);
         // Optional: bisa kirim "challenge" ke client di sini
         // Client mod yang ngerti akan reply dengan MAGIC_HANDSHAKE
         super.channelActive(ctx);
@@ -117,7 +117,7 @@ public class CustomChannelHandler extends ChannelDuplexHandler {
         ByteBuf ackBuf = Unpooled.buffer(HANDSHAKE_ACK.length);
         ackBuf.writeBytes(HANDSHAKE_ACK);
         ctx.writeAndFlush(ackBuf);
-        NettyMod.LOGGER.info("[NettyMod] Sent ACK to: {}", playerName);
+        NUMABridgeMod.LOGGER.info("[NettyMod] Sent ACK to: {}", playerName);
     }
 
     /**
@@ -132,7 +132,7 @@ public class CustomChannelHandler extends ChannelDuplexHandler {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        NettyMod.LOGGER.warn("[NettyMod] Exception in handler for {}: {}", playerName, cause.getMessage());
+        NUMABridgeMod.LOGGER.warn("[NettyMod] Exception in handler for {}: {}", playerName, cause.getMessage());
         // PENTING: jangan close channel di sini kecuali kamu yakin
         // Kalau close, player akan di-disconnect
         super.exceptionCaught(ctx, cause);

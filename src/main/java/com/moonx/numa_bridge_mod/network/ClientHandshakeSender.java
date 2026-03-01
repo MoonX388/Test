@@ -1,6 +1,6 @@
 package com.moonx.numa_bridge_mod.network;
 
-import com.moonx.numa_bridge_mod.NUMA;
+import com.moonx.numa_bridge_mod.NUMABridgeMod;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -52,7 +52,7 @@ public class ClientHandshakeSender extends ChannelInboundHandlerAdapter {
         if (msg instanceof ByteBuf buf && !serverHasMod) {
             if (isHandshakeAck(buf)) {
                 serverHasMod = true;
-                NettyMod.LOGGER.info("[NettyMod] Server has mod! Handshake complete.");
+                NUMABridgeMod.LOGGER.info("[NettyMod] Server has mod! Handshake complete.");
                 buf.release();
                 return;
             }
@@ -65,7 +65,7 @@ public class ClientHandshakeSender extends ChannelInboundHandlerAdapter {
         ByteBuf buf = Unpooled.buffer(CustomChannelHandler.MAGIC_HANDSHAKE.length);
         buf.writeBytes(CustomChannelHandler.MAGIC_HANDSHAKE);
         ctx.writeAndFlush(buf);
-        NettyMod.LOGGER.info("[NettyMod] Sent handshake to server");
+        NUMABridgeMod.LOGGER.info("[NettyMod] Sent handshake to server");
     }
 
     private boolean isHandshakeAck(ByteBuf buf) {
@@ -105,12 +105,12 @@ public class ClientHandshakeSender extends ChannelInboundHandlerAdapter {
             ClientHandshakeSender sender = new ClientHandshakeSender();
             if (channel.pipeline().get("nettymod_client_handler") == null) {
                 channel.pipeline().addFirst("nettymod_client_handler", sender);
-                NettyMod.LOGGER.info("[NettyMod] Client handler injected");
+                NUMABridgeMod.LOGGER.info("[NettyMod] Client handler injected");
             }
             return sender;
 
         } catch (Exception e) {
-            NettyMod.LOGGER.error("[NettyMod] Failed to inject client handler: {}", e.getMessage());
+            NUMABridgeMod.LOGGER.error("[NettyMod] Failed to inject client handler: {}", e.getMessage());
             return null;
         }
     }

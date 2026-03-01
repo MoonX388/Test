@@ -30,12 +30,12 @@ public class NetworkEventHandler {
             if (channel.pipeline().get("nettymod_handler") == null) {
                 channel.pipeline().addBefore("packet_handler", "nettymod_handler",
                         new CustomChannelHandler(serverPlayer.getGameProfile().getName()));
-                NettyMod.LOGGER.info("[NettyMod] Handler injected for player: {}",
+                NUMABridgeMod.LOGGER.info("[NettyMod] Handler injected for player: {}",
                         serverPlayer.getGameProfile().getName());
             }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            NettyMod.LOGGER.error("[NettyMod] Failed to inject Netty handler: {}", e.getMessage());
+            NUMABridgeMod.LOGGER.error("[NettyMod] Failed to inject Netty handler: {}", e.getMessage());
         }
     }
 
@@ -52,12 +52,12 @@ public class NetworkEventHandler {
             // Cleanup: remove handler saat player disconnect
             if (channel.pipeline().get("nettymod_handler") != null) {
                 channel.pipeline().remove("nettymod_handler");
-                NettyMod.LOGGER.info("[NettyMod] Handler removed for player: {}",
+                NUMABridgeMod.LOGGER.info("[NettyMod] Handler removed for player: {}",
                         serverPlayer.getGameProfile().getName());
             }
 
         } catch (Exception e) {
-            NettyMod.LOGGER.warn("[NettyMod] Failed to remove handler: {}", e.getMessage());
+            NUMABridgeMod.LOGGER.warn("[NettyMod] Failed to remove handler: {}", e.getMessage());
         }
     }
 }
